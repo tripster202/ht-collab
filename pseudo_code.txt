@@ -1,0 +1,52 @@
+pseudo code for surf strategy
+
+// imports //
+import math
+import abc, xyz
+
+// start
+initiate https server thread to receive TradingView RSI data (webhook)
+    store TradingView data as global dictionary {coin:rsi_value}
+
+// pull all data from persistent database
+// database options
+//    - local/remote SQL
+//    - Google Sheets
+//    - Google Firebase (or similar)
+from database db:
+    get all bank data
+    get all tide data
+
+// continuous loop
+while(True):
+
+    // holds the outside "while(True)" loop for N minutes through the use of time.wait(1.0)
+    while(time_val < n_minutes): time.wait(1.0)
+
+    get all price data from coinbase and store locally
+    get all volume data from coinbase and store locally
+
+    check if any sell limits are fulfilled
+        if fulfilled
+            pull transaction information using order_id
+            reset count to zero
+
+    // buyd conditions
+    // average daily volume > $5 million
+    // RSI < 35.0
+    // First buy under the threshold **
+    check if any coins meet the conditions to buy
+        if buyd conditions met
+            increment count by 1
+            determine dollar amount to buy ($100.00 * (multiplier ^ count))
+            send market order to coinbase
+            receive transaction details from coinbase (order_id, size, price, fee)
+            store transaction details (order_id, size, price, fee)
+            re-compute new average price
+
+    update bank
+    update tide
+
+// ** Algorithm will only buy once while RSI < 35.0 -- The algorithm must wait for the RSI to go above the threshold (RSI < 35.0) before it can then buy an additional position -- This prevents the algorithm from buying a whole group of positions at once
+
+// footnote: I like to write "buy" as "buyd" because "buyd" and "sell" are both the same length with four characters. Slight obsession for symmetry.
